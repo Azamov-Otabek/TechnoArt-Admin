@@ -1,17 +1,44 @@
 import { ProFormText } from '@ant-design/pro-components';
 import { Form, Button } from 'antd';
 import { MailOutlined, LockOutlined } from '@ant-design/icons';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { Auth } from '@store';
+import { Login } from '../../../interface/Auth';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { setCookies } from '../../../utils/cocies';
+
 
 function Index() {
+  const navigate = useNavigate()
   const {Login} = Auth()
-  console.log(Login);
+  const [load, setLoad] = useState(false)
+  async function handleSubmit(data:Login){
+    setLoad(true)
+    const response = await Login(data)
+    if(response?.status == 201){
+      setTimeout(() => {
+        toast.success('Login successful', {autoClose: 1100})
+        setTimeout(() => {
+          setCookies('access_token', response?.tokens?.access_token)
+          setCookies('refresh_token', response?.tokens?.refresh_token)
+          setCookies('first_name', response?.admin?.first_name)
+          navigate('/dashboard')
+        }, 1400);
+      }, 2000);
+
+    }else{
+      setTimeout(() => {
+        toast.error('Something went wrong')
+        setLoad(false)
+      }, 2000);
+    }
+  }
   return (
     <div className='w-[500px] h-[429px] bg-white p-[25px]'>
       <h1 className='text-[30px] font-medium text-center mb-[30px]'>LOGIN</h1>
       <Form
-      onFinish={() => console.log(1)}>
+      onFinish={(value) => handleSubmit(value)}>
         <ProFormText
         hasFeedback
           name="email"
@@ -52,6 +79,7 @@ function Index() {
         />
         <Form.Item>
           <Button
+           loading={load}
             type="primary"
             htmlType="submit"
             style={{ width: '100%', height: '50px', marginTop: '20px',background: '#00AD45', fontWeight: 700 }}

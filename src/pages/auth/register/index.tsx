@@ -2,13 +2,38 @@ import { ProFormText } from '@ant-design/pro-components';
 import { Form, Button } from 'antd';
 import { MailOutlined, LockOutlined, PhoneOutlined, UserOutlined } from '@ant-design/icons';
 import { RegisterInterface } from '@globalinter';
-
+import { setCookies } from '../../../utils/cocies';
+import { toast } from 'react-toastify';
+import { useState } from 'react';
+import { Auth } from '@store';
+import { useNavigate } from 'react-router-dom';
 
 
 function Register() {
-  const onFinish = (values:RegisterInterface) => {
-    console.log('Received values:', values);
-  };
+  const [load, setLoad] = useState(false)
+  const navigate = useNavigate()
+  const {Singup} = Auth()
+  async function handleSubmit(data:RegisterInterface){
+    setLoad(true)
+    const response = await Singup(data)
+    if(response?.status == 201){
+      setTimeout(() => {
+        toast.success('Singup successful', {autoClose: 1100})
+        setTimeout(() => {
+          setCookies('access_token', response?.tokens?.access_token)
+          setCookies('refresh_token', response?.tokens?.refresh_token)
+          setCookies('first_name', response?.admin?.first_name)
+          navigate('/dashboard')
+        }, 1400);
+      }, 2000);
+
+    }else{
+      setTimeout(() => {
+        toast.error('Something went wrong')
+        setLoad(false)
+      }, 2000);
+    }
+  }
 
   const validatePhoneNumber = (_:any, value:any) => {
     if (!value || value.startsWith('+998')) {
@@ -21,7 +46,7 @@ function Register() {
     <div className='w-[500px] h-[429px] bg-white p-[25px]'>
       <h1 className='text-[30px] font-medium text-center mb-[10px]'>REGISTER</h1>
       <Form
-        onFinish={onFinish}
+        onFinish={(data) => handleSubmit(data)}
         initialValues={{
           remember: true,
         }}
@@ -114,6 +139,7 @@ function Register() {
         />
         <Form.Item>
           <Button
+          loading={load}
             type="primary"
             htmlType="submit"
             style={{ width: '100%', height: '50px', background: '#00AD45', fontWeight: 700 }}
