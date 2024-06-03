@@ -5,3 +5,8 @@ export interface RegisterInterface{
     phone_number: string;
     password: string;
 }
+
+export interface element{
+    element: JSX.Element
+}
+

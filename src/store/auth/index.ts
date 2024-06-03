@@ -29,10 +29,9 @@ const useAuthStore = create <AuthRequst>(() => ({
     },
     Logout: async () => {
         try {
-            const response = await http.post("/admin/logout")
-            return response
+            await http.post("/admin/logout")
         }catch(err){
-            return err
+            console.log(err);
         }
     },
     Refresh_Token: async (data) => {

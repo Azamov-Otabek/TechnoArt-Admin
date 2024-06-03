@@ -21,7 +21,7 @@ function index() {
               {auth_pages?.map((e,i) => {
                 return (           
                    <NavLink to={e.path} key={i}>
-                     <div className={`flex items-center justify-center flex-col gap-[10px] h-[143px] w-[200px] max-lg:h-[70px] max-lg:max-w-[167px] bg-white shadow-lg cursor-pointer text-[26px] ${pathname == e.path && 'bg-[#00AD45] text-white duration-300'}`}>
+                     <div className={`flex items-center justify-center flex-col gap-[10px] h-[143px] w-[200px] max-lg:h-[70px] max-lg:max-w-[167px] shadow-lg cursor-pointer text-[26px] ${pathname == e.path ? 'bg-[#00AD45] text-white duration-300' : 'bg-white'}`}>
                       {e.icon}
                       <h1 className={`text-center text-[20px] font-medium text-gray-700 ${pathname == e.path && 'text-white duration-300'} `}>
                         {e.title}

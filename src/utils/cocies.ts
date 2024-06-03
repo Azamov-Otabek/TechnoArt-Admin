@@ -12,3 +12,7 @@ export const setCookies = (title:string, value:string) => {
 export const removeCookies = (title:string) => {
     return Cookies.remove(title)
 }
+
+export const isAuthenticated = () =>{
+    return Cookies.get('access_token')? true : false;
+}

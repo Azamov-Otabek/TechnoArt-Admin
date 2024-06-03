@@ -1,0 +1,29 @@
+.ant-table-thead .ant-table-cell {
+  background-color: #f3ca52 !important;
+  color: #0a6847 !important;
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  font-family: sans-serif;
+}
+
+.ant-table-tbody > tr:hover > td {
+  background-color: #197c59 !important;
+  color: white;
+}
+
+.ant-table-tbody > tr > td {
+  background-color: #0a6847 !important;
+  color: white;
+  font-size: 18px;
+}
+
+.custom-button:hover {
+  background-color: #F6E9B2 !important; 
+}
+
+.custom-button{
+  background-color: #f3ca52 !important; 
+  color:#0a6847 !important; /* Optional: change text color on hover */
+  font-weight: 600;
+  border: 1px solid #0a6847
+}

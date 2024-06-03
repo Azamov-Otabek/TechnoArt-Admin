@@ -20,9 +20,9 @@ function Register() {
       setTimeout(() => {
         toast.success('Singup successful', {autoClose: 1100})
         setTimeout(() => {
-          setCookies('access_token', response?.tokens?.access_token)
-          setCookies('refresh_token', response?.tokens?.refresh_token)
-          setCookies('first_name', response?.admin?.first_name)
+          setCookies('access_token', response?.data?.tokens?.access_token)
+          setCookies('refresh_token', response?.data?.tokens?.refresh_token)
+          setCookies('first_name', response?.data?.admin?.first_name)
           navigate('/dashboard')
         }, 1400);
       }, 2000);

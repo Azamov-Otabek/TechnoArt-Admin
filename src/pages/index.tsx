@@ -2,5 +2,14 @@ import Auth from './auth'
 import Login from './auth/login'
 import Register from './auth/register'
 import ForgotPassword from './auth/forgot-password'
+import Protected from './protected'
+import Protectedauth from './protectedAuth'
+import Settings from './settings'
+import Brands from './brands'
+import Models from './models'
+import Products from './products'
+import Categories from './category'
+import Home from './home'
+import Single_Category from './category-single'
 
-export {Auth, Login, Register, ForgotPassword}
+export {Auth, Login, Register, ForgotPassword, Protected, Protectedauth, Categories, Brands, Models, Settings, Products, Home, Single_Category}
