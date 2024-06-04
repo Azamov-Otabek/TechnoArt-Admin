@@ -23,6 +23,7 @@ function Index() {
           setCookies('access_token', response?.data?.tokens?.access_token)
           setCookies('refresh_token', response?.data?.tokens?.refresh_token)
           setCookies('first_name', response?.data?.admin?.first_name)
+          setCookies('id', response?.data?.admin?.id)
           navigate('/dashboard')
         }, 1400);
       }, 2000);

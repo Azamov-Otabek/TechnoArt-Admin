@@ -41,6 +41,22 @@ const useAuthStore = create <AuthRequst>(() => ({
         }catch(err){
             return err
         }
+    },
+    getAdminbyId: async (id) => {
+        try {
+            const response = await http.get(`/admin/${id}`)
+            return response
+        }catch(err){
+            return err
+        }
+    },
+    deleteUser: async (id) => {
+        try {
+            const response = await http.delete(`/admin/${id}`)
+            return response
+        }catch(err){
+            return err
+        }
     }
   }));
 

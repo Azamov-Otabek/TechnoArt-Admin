@@ -24,4 +24,6 @@ export interface AuthRequst{
     Reset: (data:ForgotPassword) => any;
     Logout: () => any;
     Refresh_Token: (data: Refresh_Token) => any;
+    getAdminbyId: (id: string) => any;
+    deleteUser: (id: string) => any;
 }
