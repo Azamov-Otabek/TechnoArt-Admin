@@ -2,7 +2,7 @@ import axios from "axios";
 import { getCookies } from "../utils/cocies";
 
 const http = axios.create({
-    baseURL: "http://18.159.214.90/api"
+    baseURL: "https://ecomapi.ilyosbekdev.uz"
 })
 
 

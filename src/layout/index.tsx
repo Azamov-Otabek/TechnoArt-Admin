@@ -6,12 +6,10 @@ import { getCookies, removeCookies } from '../utils/cocies';
 import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { root } from '../router/root';
 import './style.css'
-import { Auth } from '@store';
 
 const { Header, Content, Footer, Sider } = Layout;
 
 const App: React.FC = () => {
-  const {Logout} = Auth()
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -34,8 +32,7 @@ const App: React.FC = () => {
     },
   ];
 
-  async function logout(){
-    await Logout()
+  function logout(){
     removeCookies('access_token')
     removeCookies('refresh_token')
     removeCookies('first_name')

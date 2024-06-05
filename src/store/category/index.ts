@@ -3,12 +3,14 @@ import http from "../../config";
 import { Category_Request } from "../../interface/category";
 
 
-const useCategoryStore = create <Category_Request>((set) => ({
+const useCategoryStore = create <Category_Request>((set, get) => ({
     data_category: [],
-    get_all_category: async () => {
+    count: 0,
+    get_all_category: async (data) => {
         try {
-            const response = await http.get("/category/get-all-category/q?")
-            set({ data_category: response?.data?.categories })
+            const response = await http.get(`/category/search?search=${data?.search}&limit=${data?.limit}&page=${data?.page}`)
+            set({ data_category: response?.data?.data?.categories })
+            set({ count: response?.data?.data?.count })
         } catch (err) {
             console.log(err)
         }
@@ -31,20 +33,23 @@ const useCategoryStore = create <Category_Request>((set) => ({
     },
     create_category: async (data) => {
         try {
-            const response = await http.post("/category/create", data);
-            set((prev) => ({
-                data_category: [...prev.data_category, response?.data?.category],
-            }));
-            return response
+            const currentCategories = get().data_category;
+            const response = await http.post("/category", data);
+            if (currentCategories.length != 5) {
+                set((prev) => ({
+                    data_category: [...prev.data_category, response?.data?.data],
+                }));
+            }
+            return response;
         } catch (err) {
             return err;
         }
     },
     put_category: async (data) => {
         try {
-            const response = await http.put(`/category/update/${data.id}`, data)
+            const response = await http.patch(`/category/${data?.id}`, data?.data)
             set((prev) => ({
-                data_category: prev.data_category.map((item) => item.id === data.id? response?.data?.category : item)
+                data_category: prev.data_category.map((item) => item.id === data.id ? response?.data?.data : item)
             }));
             return response
         } catch (err) {
@@ -53,7 +58,7 @@ const useCategoryStore = create <Category_Request>((set) => ({
     },
     delete_category: async (data) => {
         try {
-            const response = await http.delete(`/category/delete/${data.id}`);
+            const response = await http.delete(`/category/${data.id}`);
             set((prev) => ({
                 data_category: prev.data_category.filter((item) => item.id !== data.id)
             }));

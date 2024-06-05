@@ -1,15 +1,8 @@
 import {Table } from 'antd';
 import './style.css'
-import { useEffect, useState } from 'react';
 
 function Index(props:any) {
-  const [load, setLoad] = useState(true)
-
-  useEffect(() =>{
-    setTimeout(() => {
-      setLoad(false)
-    }, 1000);
-  }, [])
+  
 
   return (
     <Table
@@ -17,7 +10,7 @@ function Index(props:any) {
       dataSource={props?.dataSource}
       rowKey={record => record.id}
       pagination={false}
-      loading={load}
+      loading={props.load}
     />
   );
 }

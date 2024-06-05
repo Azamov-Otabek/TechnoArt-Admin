@@ -5,7 +5,7 @@ import { AuthRequst } from "../../interface/Auth";
 const useAuthStore = create <AuthRequst>(() => ({
     Login: async (data) => {
         try {
-            const response = await http.post("/admin/login", data)
+            const response = await http.post("/auth/sign-in", data)
             return response
         }catch(err){
             return err
@@ -13,7 +13,7 @@ const useAuthStore = create <AuthRequst>(() => ({
     },
     Singup: async (data) => {
         try {
-            const response = await http.post("/admin/create", data)
+            const response = await http.post("/auth/admin/sign-up", data)
             return response
         }catch(err){
             return err
@@ -25,13 +25,6 @@ const useAuthStore = create <AuthRequst>(() => ({
             return response
         }catch(err){
             return err
-        }
-    },
-    Logout: async () => {
-        try {
-            await http.post("/admin/logout")
-        }catch(err){
-            console.log(err);
         }
     },
     Refresh_Token: async (data) => {

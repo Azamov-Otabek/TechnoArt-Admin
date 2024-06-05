@@ -4,22 +4,28 @@ import { Brand_Request } from "../../interface/brand";
 
 
 const useBrandStore = create <Brand_Request>((set) => ({
+    count: 0,
     data_brand: [],
-    get_brands: async () => {
+    get_brands: async (data) => {
         try {
-            const response = await http.get("/brand/get-all/q?")
-            set({ data_brand: response?.data?.brands })
+            const response = await http.get(`/brand/search?search=${data.search}&limit=${data.limit}&page=${data.page}`)
+            set({ data_brand: response?.data?.data?.brands })
+            set({ count: response?.data?.data?.count })
         } catch (err) {
             console.log(err)
         }
     },
     post_brand: async (data) => {
         try {
-            const response = await http.post("/brand/create", data);
+            const response = await http.post("/brand", data, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
             set((prev) => ({
-                data_brand: [...prev.data_brand, response?.data?.brand],
+                data_brand: [...prev.data_brand, response?.data?.data],
             }));
-            return response
+            return response;
         } catch (err) {
             return err;
         }
@@ -27,11 +33,12 @@ const useBrandStore = create <Brand_Request>((set) => ({
     put_brand: async (data) => {
         try {
             console.log(data);
-            const response = await http.put(`/brand/update/${data.id}`, data);
+            const response = await http.patch(`/brand/${data.id}`, data?.formData);
+            console.log(response);
             set((prev) => ({
                 data_brand: prev.data_brand.map((item) => {
                     if (item.id === data.id) {
-                        return response?.data?.brand;
+                        return response?.data?.data;
                     } else {
                         return item;
                     }
@@ -44,7 +51,7 @@ const useBrandStore = create <Brand_Request>((set) => ({
     },
     delete_brand: async (data) => {
         try {
-            const response = await http.delete(`/brand/delete/${data.id}`);
+            const response = await http.delete(`/brand/${data.id}`);
             set((prev) => ({
                 data_brand: prev.data_brand.filter((item) => item.id!== data.id),
             }));

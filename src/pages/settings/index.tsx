@@ -13,8 +13,8 @@ function index() {
   const [data, setData]:any = useState({})
   const [open, setOpen] = useState(false);
   async function getAdmin(){
-    const response = await getAdminbyId(String(getCookies("id")))
-    setData(response.data)
+    const response = await getAdminbyId(Number(getCookies("id")))
+    setData(response?.data?.data)
   }
   const hide = () => {
     setOpen(false);

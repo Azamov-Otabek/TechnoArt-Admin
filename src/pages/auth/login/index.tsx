@@ -1,6 +1,6 @@
 import { ProFormText } from '@ant-design/pro-components';
 import { Form, Button } from 'antd';
-import { MailOutlined, LockOutlined } from '@ant-design/icons';
+import {LockOutlined, PhoneOutlined } from '@ant-design/icons';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Auth } from '@store';
 import { Login } from '../../../interface/Auth';
@@ -10,20 +10,27 @@ import { setCookies } from '../../../utils/cocies';
 
 
 function Index() {
+
+  const validatePhoneNumber = (_:any, value:any) => {
+    if (!value || value.startsWith('+998')) {
+      return Promise.resolve();
+    }
+    return Promise.reject('Phone Number must start with +998');
+  };
+
   const navigate = useNavigate()
   const {Login} = Auth()
   const [load, setLoad] = useState(false)
   async function handleSubmit(data:Login){
     setLoad(true)
     const response = await Login(data)
-    if(response?.status == 201){
+    if(response?.data?.statusCode == 200){
       setTimeout(() => {
         toast.success('Login successful', {autoClose: 1100})
         setTimeout(() => {
-          setCookies('access_token', response?.data?.tokens?.access_token)
-          setCookies('refresh_token', response?.data?.tokens?.refresh_token)
-          setCookies('first_name', response?.data?.admin?.first_name)
-          setCookies('id', response?.data?.admin?.id)
+          setCookies('access_token', response?.data?.data?.token)
+          setCookies('first_name', response?.data?.data?.admin?.first_name)
+          setCookies('id', response?.data?.data?.admin?.id)
           navigate('/dashboard')
         }, 1400);
       }, 2000);
@@ -42,20 +49,19 @@ function Index() {
       onFinish={(value) => handleSubmit(value)}>
         <ProFormText
         hasFeedback
-          name="email"
-          placeholder="Please enter your email"
+          name="phone_number"
+          placeholder="Please enter your Phone number"
           rules={[
             {
               required: true,
-              message: 'Email is required',
+              message: 'Phone number is required',
             },
             {
-              type: 'email',
-              message: 'Please enter a valid email',
+              validator: validatePhoneNumber
             },
           ]}
           fieldProps={{
-            prefix: <MailOutlined style={{ fontSize: '16px', paddingRight: '8px' }} />,
+            prefix: <PhoneOutlined style={{ fontSize: '16px', paddingRight: '8px' }} />,
             style: { width: '100%', height: '50px' }
           }}
         />

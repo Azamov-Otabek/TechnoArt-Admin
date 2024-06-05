@@ -22,23 +22,23 @@ function Index(props: any) {
   };
 
   const onFinish = async (values: any) => {
-    values.position = null;
     if (props.title === 'Create category') {
-      values.parent_category_id = props?.data || null;
-      console.log(values);
       const response = await create_category(values);
-      if (response?.data?.message === 'Created successfully')
+      if (response?.data?.statusCode === 201){
         toast.success('Category created successfully');
-      else
+        props.getData()
+      }else
         toast.error('Category not found');
     }else{
-      values.parent_category_id = typeof(props?.data) == 'string' ? props?.data : props?.data?.parent_category_id; 
-      console.log(values);
-      values.id = props?.data?.id
-      const response = await put_category(values)
-      if (response?.data?.message === 'Updated successfully')
+      const payload ={
+        id: props?.data?.id,
+        data: values
+      }
+      const response = await put_category(payload)
+      if (response?.data?.statusCode === 200){
         toast.success('Category updated successfully');
-      else
+        props.getData()
+        }else
         toast.error('Category not found');
     }
     setIsModalOpen(false);
@@ -53,9 +53,9 @@ function Index(props: any) {
       <Modal title="Create Parent Category" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <Form onFinish={onFinish}>
           <ProFormText
-            initialValue={props?.data?.category_name || ''}
+            initialValue={props?.data?.name || ''}
             hasFeedback
-            name="category_name"
+            name="name"
             placeholder="Please enter your Category name"
             rules={[
               {

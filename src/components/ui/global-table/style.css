@@ -27,3 +27,20 @@
   font-weight: 600;
   border: 1px solid #0a6847
 }
+
+
+
+.custom-search{
+  max-width: 500px !important;
+  
+}
+
+.custom-search .ant-input-search-button {
+  background-color: #0a6847 !important; /* Set your desired color */
+  border-color: #0a6847 !important;     /* Set your desired color */
+}
+
+.custom-search .ant-input-search-button:hover {
+  background-color: #0a6847 !important; /* Set hover color */
+  border-color: #0a6847 !important;     /* Set hover color */
+}
