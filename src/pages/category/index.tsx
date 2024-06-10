@@ -86,7 +86,10 @@ function Index() {
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    setPage(1)
     const searchparams = new URLSearchParams(location.search);
+    searchparams.set('page', '1');
+    navigate(`?${searchparams}`)
     searchparams.set('search', e.target.value);
     navigate(`?${searchparams}`);
     setSearchLoad(true);

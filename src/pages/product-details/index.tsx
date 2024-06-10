@@ -1,8 +1,8 @@
-import { SubCategory } from "@store";
+import { ProductDetails } from "@store";
 import { useEffect, useState } from "react";
 import { Button, Input } from "antd"; // Importing required components from Ant Design
 import '../../components/ui/global-table/style.css'
-import { Glabal_Table, SubCategory_modal, Pogination } from "@ui";
+import { Glabal_Table, Detail_modal, Pogination } from "@ui";
 import {  useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -10,8 +10,8 @@ function Index() {
   const { Search } = Input;
   const location = useLocation();
   const searchparams = new URLSearchParams(location.search);
-  const { get_all_subcategory, data_sub_category, delete_subcategory, count} = SubCategory();
-  const {subcategory} = useParams()
+  const { count, data_productDetail, delete_productDetail, get_productDetail} = ProductDetails();
+  const {brand} = useParams() 
   const navigate = useNavigate();
   const [page, setPage] = useState(Number(searchparams.get('page')) || 1);
   const [search, setSearch] = useState(searchparams.get('search') || '');
@@ -21,7 +21,7 @@ function Index() {
 
 
   const handleDelete = async (id:string) => {
-    const response = await delete_subcategory({id: Number(id)})
+    const response = await delete_productDetail({id: Number(id)})
     if(response?.data?.statusCode == 200){
       toast.success('Delete category successfully', {autoClose: 1500})
       const searchparams = new URLSearchParams(location.search);
@@ -42,9 +42,14 @@ function Index() {
       key: 'id',
     },
     {
-      title: 'Subcategory name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
+      title: 'Product ID',
+      dataIndex: 'product_id',
+      key: 'product_id',
     },
     {
       title: 'Created At',
@@ -52,11 +57,23 @@ function Index() {
       key: 'createdAt',
     },
     {
+      title: "Discount",
+      dataIndex: 'discount',
+      key: 'discount',
+    },
+    {
+      title: 'IMG LINK',
+      dataIndex: 'images',
+      key: 'images',
+      render: (text:any) => 
+        <p>{text[0]}</p>
+    },
+    {
       title: 'Actions',
       key: 'actions',
       render: (_:any, record:any) => (
         <div>
-          <SubCategory_modal title={'update'} data={record} parent_id={Number(subcategory)} getData={getData}/>
+          <Detail_modal title={'update'} data={record} parent_id={Number(data_productDetail)} getData={getData}/>
           <Button  onClick={() => handleDelete(record.id)} className="custom-button mr-2 ml-2">
             Delete
           </Button>      
@@ -67,7 +84,7 @@ function Index() {
 
   async function getData() {
     setTableLoad(true)
-    await get_all_subcategory({page: page, limit: 5, search: search, id:Number(subcategory)});
+    await get_productDetail();
     setTotal(count)
     setTableLoad(false)
   }
@@ -104,9 +121,9 @@ function Index() {
             onChange={handleSearchChange}
             
           />
-          <SubCategory_modal title={'Create category'} parent_id={Number(subcategory)} getData={getData}/>
+          <Detail_modal title={'Create Product Detail'} parent_id={Number(brand)} getData={getData}/>
       </div>
-      <Glabal_Table columns={columns} dataSource={data_sub_category} load={tableLoad} />
+      <Glabal_Table columns={columns} dataSource={data_productDetail} load={tableLoad} />
       <div className="flex justify-center mt-[20px]">
           <Pogination page={page} setPage={setPage} count={total} />
         </div>

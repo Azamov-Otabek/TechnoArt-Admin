@@ -1,8 +1,8 @@
-import { SubCategory } from "@store";
+import { BrandCategory } from "@store";
 import { useEffect, useState } from "react";
 import { Button, Input } from "antd"; // Importing required components from Ant Design
 import '../../components/ui/global-table/style.css'
-import { Glabal_Table, SubCategory_modal, Pogination } from "@ui";
+import { Glabal_Table, BrandCategory_modal, Pogination } from "@ui";
 import {  useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 
@@ -10,8 +10,8 @@ function Index() {
   const { Search } = Input;
   const location = useLocation();
   const searchparams = new URLSearchParams(location.search);
-  const { get_all_subcategory, data_sub_category, delete_subcategory, count} = SubCategory();
-  const {subcategory} = useParams()
+  const { count, get_all_brandcategory, delete_brandcategory, data_brand_category} = BrandCategory();
+  const {brand} = useParams()
   const navigate = useNavigate();
   const [page, setPage] = useState(Number(searchparams.get('page')) || 1);
   const [search, setSearch] = useState(searchparams.get('search') || '');
@@ -21,7 +21,7 @@ function Index() {
 
 
   const handleDelete = async (id:string) => {
-    const response = await delete_subcategory({id: Number(id)})
+    const response = await delete_brandcategory({id: Number(id)})
     if(response?.data?.statusCode == 200){
       toast.success('Delete category successfully', {autoClose: 1500})
       const searchparams = new URLSearchParams(location.search);
@@ -56,7 +56,7 @@ function Index() {
       key: 'actions',
       render: (_:any, record:any) => (
         <div>
-          <SubCategory_modal title={'update'} data={record} parent_id={Number(subcategory)} getData={getData}/>
+          <BrandCategory_modal title={'update'} data={record} parent_id={Number(data_brand_category)} getData={getData}/>
           <Button  onClick={() => handleDelete(record.id)} className="custom-button mr-2 ml-2">
             Delete
           </Button>      
@@ -67,7 +67,7 @@ function Index() {
 
   async function getData() {
     setTableLoad(true)
-    await get_all_subcategory({page: page, limit: 5, search: search, id:Number(subcategory)});
+    await get_all_brandcategory({page: page, limit: 5, search: search, id:Number(brand)});
     setTotal(count)
     setTableLoad(false)
   }
@@ -104,9 +104,9 @@ function Index() {
             onChange={handleSearchChange}
             
           />
-          <SubCategory_modal title={'Create category'} parent_id={Number(subcategory)} getData={getData}/>
+          <BrandCategory_modal title={'Create Brand category'} parent_id={Number(brand)} getData={getData}/>
       </div>
-      <Glabal_Table columns={columns} dataSource={data_sub_category} load={tableLoad} />
+      <Glabal_Table columns={columns} dataSource={data_brand_category} load={tableLoad} />
       <div className="flex justify-center mt-[20px]">
           <Pogination page={page} setPage={setPage} count={total} />
         </div>

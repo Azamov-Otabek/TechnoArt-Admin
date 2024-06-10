@@ -28,9 +28,10 @@ function Index() {
       setTimeout(() => {
         toast.success('Login successful', {autoClose: 1100})
         setTimeout(() => {
-          setCookies('access_token', response?.data?.data?.token)
-          setCookies('first_name', response?.data?.data?.admin?.first_name)
-          setCookies('id', response?.data?.data?.admin?.id)
+          setCookies('access_token', response?.data?.data?.tokens?.access_token)
+          setCookies('refresh_token', response?.data?.data?.tokens?.refresh_token)
+          setCookies('first_name', response?.data?.data?.data?.first_name)
+          setCookies('id', response?.data?.data?.data?.id)
           navigate('/dashboard')
         }, 1400);
       }, 2000);

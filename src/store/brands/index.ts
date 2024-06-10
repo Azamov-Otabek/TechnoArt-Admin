@@ -17,7 +17,7 @@ const useBrandStore = create <Brand_Request>((set) => ({
     },
     post_brand: async (data) => {
         try {
-            const response = await http.post("/brand", data, {
+            const response = await http.post("/brand/create", data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -33,7 +33,7 @@ const useBrandStore = create <Brand_Request>((set) => ({
     put_brand: async (data) => {
         try {
             console.log(data);
-            const response = await http.patch(`/brand/${data.id}`, data?.formData);
+            const response = await http.patch(`/brand/update/${data.id}`, data?.formData);
             console.log(response);
             set((prev) => ({
                 data_brand: prev.data_brand.map((item) => {
@@ -51,7 +51,7 @@ const useBrandStore = create <Brand_Request>((set) => ({
     },
     delete_brand: async (data) => {
         try {
-            const response = await http.delete(`/brand/${data.id}`);
+            const response = await http.delete(`/brand/delete/${data.id}`);
             set((prev) => ({
                 data_brand: prev.data_brand.filter((item) => item.id!== data.id),
             }));

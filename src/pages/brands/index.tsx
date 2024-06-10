@@ -49,6 +49,9 @@ function index() {
       title: 'Description',
       dataIndex: 'description',
       key: 'description',
+      render: (text:any) => {
+        return <p>{text.slice(0,30)}...</p>
+      }
     },
     {
       title: 'Imgae URL',
@@ -70,7 +73,10 @@ function index() {
           <Brand_modal title={'Update'} data={record} getData={getData}/>     
           <Button onClick={() => handledelete(record.id)}  className="custom-button mr-2 ml-2">
             Delete
-          </Button> 
+          </Button>
+          <Button className="custom-button" onClick={() => navigate(`/dashboard/brands/${record.id}`)}>
+            View Brand categories within
+          </Button>
         </div>
       ),
     }
@@ -78,7 +84,10 @@ function index() {
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
+    setPage(1)
     const searchparams = new URLSearchParams(location.search);
+    searchparams.set('page', '1');
+    navigate(`?${searchparams}`)
     searchparams.set('search', e.target.value);
     navigate(`?${searchparams}`);
     setSearchLoad(true);

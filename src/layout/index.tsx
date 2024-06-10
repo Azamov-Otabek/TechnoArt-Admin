@@ -19,6 +19,9 @@ const App: React.FC = () => {
     {
       label: 'My account',
       key: '0',
+      onClick: () => {
+        navigate('/dashboard/settings')
+      }
     },
     {
       type: 'divider',

@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Button, Modal, Form } from 'antd';
 import '../global-table/style.css';
 import { ProFormText } from '@ant-design/pro-components';
-import { CategoryStore } from '@store';
+import { BrandCategory } from '@store';
 import { toast } from 'react-toastify';
 
 function Index(props: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const { create_category, put_category } = CategoryStore();
+  const { create_brandcategory, update_brandcategory } = BrandCategory();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -23,24 +23,24 @@ function Index(props: any) {
   };
 
   const onFinish = async (values: any) => {
-    if (props.title === 'Create category') {
-      const response = await create_category(values);
+    if (props.title === 'Create Brand category') {
+        values.brand_id = props.parent_id
+        const response = await create_brandcategory(values);
       if (response?.data?.statusCode === 201){
-        toast.success('Category created successfully');
+        toast.success('Brand Category created successfully');
         props.getData();
       }else
-        toast.error('Category not found');
+        toast.error('Brand Category not found');
     }else{
-      const payload ={
-        id: props?.data?.id,
-        data: values
-      }
-      const response = await put_category(payload);
+
+      values.brand_id = props?.parent_id
+      values.id = props?.data?.id
+      const response = await update_brandcategory(values);
       if (response?.data?.statusCode === 200){
-        toast.success('Category updated successfully');
+        toast.success('Brand Category updated successfully');
         props.getData();
       }else
-        toast.error('Category not found');
+        toast.error('Brand Category not found');
     }
     setIsModalOpen(false);
     form.resetFields();
@@ -51,13 +51,13 @@ function Index(props: any) {
       <Button className='custom-button' onClick={showModal}>
         {props.title}
       </Button>
-      <Modal title="Create Parent Category" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
+      <Modal title="Create Brand Category" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} footer={null}>
         <Form form={form} onFinish={onFinish}>
           <ProFormText
             initialValue={props?.data?.name || ''}
             hasFeedback
             name="name"
-            placeholder="Please enter your Category name"
+            placeholder="Please enter your Brand category name"
             rules={[
               {
                 required: true,

@@ -25,7 +25,7 @@ const useCategoryStore = create <Category_Request>((set, get) => ({
     },
     get_id_category: async (data) => {
         try {
-            const response = await http.get(`/category/get/${data.id}`)
+            const response = await http.get(`/category/${data.id}`)
             set({ data_category: response?.data?.categories })
         } catch (err) {
             console.log(err)
@@ -34,7 +34,7 @@ const useCategoryStore = create <Category_Request>((set, get) => ({
     create_category: async (data) => {
         try {
             const currentCategories = get().data_category;
-            const response = await http.post("/category", data);
+            const response = await http.post("/category/create", data);
             if (currentCategories.length != 5) {
                 set((prev) => ({
                     data_category: [...prev.data_category, response?.data?.data],
@@ -47,7 +47,7 @@ const useCategoryStore = create <Category_Request>((set, get) => ({
     },
     put_category: async (data) => {
         try {
-            const response = await http.patch(`/category/${data?.id}`, data?.data)
+            const response = await http.patch(`/category/update/${data?.id}`, data?.data)
             set((prev) => ({
                 data_category: prev.data_category.map((item) => item.id === data.id ? response?.data?.data : item)
             }));
@@ -58,7 +58,7 @@ const useCategoryStore = create <Category_Request>((set, get) => ({
     },
     delete_category: async (data) => {
         try {
-            const response = await http.delete(`/category/${data.id}`);
+            const response = await http.delete(`/category/delete/${data.id}`);
             set((prev) => ({
                 data_category: prev.data_category.filter((item) => item.id !== data.id)
             }));

@@ -2,13 +2,13 @@ import { useState } from 'react';
 import { Button, Modal, Form } from 'antd';
 import '../global-table/style.css';
 import { ProFormText } from '@ant-design/pro-components';
-import { CategoryStore } from '@store';
+import { SubCategory } from '@store';
 import { toast } from 'react-toastify';
 
 function Index(props: any) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
-  const { create_category, put_category } = CategoryStore();
+  const { create_subcategory, update_subcategory } = SubCategory();
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -24,20 +24,20 @@ function Index(props: any) {
 
   const onFinish = async (values: any) => {
     if (props.title === 'Create category') {
-      const response = await create_category(values);
+        values.parent_category_id = props.parent_id
+        const response = await create_subcategory(values);
       if (response?.data?.statusCode === 201){
-        toast.success('Category created successfully');
+        toast.success('SubCategory created successfully');
         props.getData();
       }else
         toast.error('Category not found');
     }else{
-      const payload ={
-        id: props?.data?.id,
-        data: values
-      }
-      const response = await put_category(payload);
+
+      values.parent_category_id = props?.parent_id
+      values.id = props?.data?.id
+      const response = await update_subcategory(values);
       if (response?.data?.statusCode === 200){
-        toast.success('Category updated successfully');
+        toast.success('SubCategory updated successfully');
         props.getData();
       }else
         toast.error('Category not found');
