@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Modal, Form, TreeSelect, Upload, message } from 'antd';
+import { Button, Modal, Form, Upload, message } from 'antd';
 import { InboxOutlined } from '@ant-design/icons';
 import '../global-table/style.css';
 import { ProFormText } from '@ant-design/pro-components';
