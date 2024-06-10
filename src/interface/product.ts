@@ -38,4 +38,5 @@ export interface Product_Request{
     delete_product: (data: delete_product) => any;
     put_product: (data: patch_product) => any;
     get_product: (data: get_Data) => any;
+    get_Product_id: (data: number) => any
 }

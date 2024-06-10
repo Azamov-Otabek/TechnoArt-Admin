@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Button, Modal, Form, TreeSelect, Upload, message } from 'antd';
+import { useState } from 'react';
+import { Button, Modal, Form, TreeSelect } from 'antd';
 import '../global-table/style.css';
 import { ProFormText } from '@ant-design/pro-components';
 import { BrandStore, CategoryStore, ProductStore, BrandCategory } from '@store';
@@ -8,15 +8,13 @@ import { toast } from 'react-toastify';
 function Index(props: any) {
   const { data_category } = CategoryStore();
   const { data_brand } = BrandStore();
-  const { data_brand_category, get_all_brandcategory } = BrandCategory();
+  const { data_brand_category, get_id_brands } = BrandCategory();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [fileList, setFileList] = useState<any[]>([]);
   const [form] = Form.useForm();
   const { post_product, put_product } = ProductStore();
 
   async function GetSubCategory(e:number){
-    console.log(e);
-    get_all_brandcategory({ page: 0, limit: 0, search: '', id: 0});
+    get_id_brands({ page: 0, limit: 0, id: e});
   }
 
   const showModal = () => {
@@ -55,7 +53,6 @@ function Index(props: any) {
 
         setIsModalOpen(false);
         form.resetFields();
-        setFileList([]);
   };
 
   // Mapping data_category to TreeSelect format

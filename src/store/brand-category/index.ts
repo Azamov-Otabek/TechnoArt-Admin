@@ -8,10 +8,9 @@ import { brandcategory_request } from "../../interface/brand-category";
 const useBrandCategoryStore = create<brandcategory_request>((set, get) => ({
 data_brand_category: [],
   count: 0,
-  get_all_brandcategory: async ({ search, limit, page, id }) => {
+  get_all_brandcategory: async ({ limit, page, id }) => {
     try {
-      // const response = await http.get(`/brand-category/search/${id}?search=${search}&limit=${limit}&page=${page}`);
-      const response = await http.get(`/brand-category/search?search=${search}&limit=${limit}&page=${page}`);
+      const response = await http.get(`/brand-category/brand/${id}?limit=${limit}&page=${page}`);
       set({ 
         data_brand_category: response?.data?.data?.brandCategories || [], 
         count: response?.data?.data?.count || 0 
@@ -63,6 +62,18 @@ data_brand_category: [],
       return err;
     }
   },
+  get_id_brands: async ({ id }) => {
+    try {
+      const response = await http.get(`/brand-category/brand/${id}?limit=0&page=0`);
+      set({ 
+        data_brand_category: response?.data?.data?.brandCategories || [], 
+        count: response?.data?.data?.count || 0 
+      });
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  }
 }));
 
 export default useBrandCategoryStore;

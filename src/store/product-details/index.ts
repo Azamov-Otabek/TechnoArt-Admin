@@ -31,8 +31,6 @@ const useProductDetailStore = create<details_request>((set) => ({
             const response = await http.patch(`/product-detail/update/${data.id}`, data?.formData);
             set((prev) => ({
                 data_productDetail: prev.data_productDetail.map((item:any) => {
-                    console.log(item);
-                    console.log(data.id);
                     if (item.id === data.id) {
                         return response?.data?.data;
                     } else {

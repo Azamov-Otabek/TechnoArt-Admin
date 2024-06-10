@@ -53,6 +53,14 @@ const useProductStore = create<Product_Request>((set) => ({
         } catch (err) {
             return err;
         }
+    },
+    get_Product_id: async (id) => {
+        try{
+            const response = await http.get(`/products/${id}`)
+            return response?.data?.data
+        }catch(err){
+            console.log(err);
+        }
     }
 }))
 

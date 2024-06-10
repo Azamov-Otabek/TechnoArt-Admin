@@ -46,17 +46,12 @@ function index() {
       key: 'name',
     },
     {
-      title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
-      render: (text:any) => {
-        return <p>{text.slice(0,30)}...</p>
-      }
-    },
-    {
       title: 'Imgae URL',
       dataIndex: 'image',
       key: 'image',
+      render: (text:any) => {
+        return <img className="relative z-10 w-[50px] h-[50px]"  src={`${text}`} alt={text} />
+      }
     },
     {
       title: 'Created Date',

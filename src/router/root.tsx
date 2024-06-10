@@ -1,4 +1,4 @@
-import { AppleOutlined, BranchesOutlined, CopyOutlined, EditOutlined, HomeOutlined, LockOutlined, SettingOutlined, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
+import { AppleOutlined, CopyOutlined, EditOutlined, HomeOutlined, LockOutlined, SettingOutlined, ShoppingOutlined, UserOutlined } from "@ant-design/icons";
 export const auth_pages = [
     {
         title: "Login",
@@ -37,11 +37,6 @@ export const root = [
         title: 'Brands',
         path: '/dashboard/brands',
         icon: <AppleOutlined />
-    },
-    {
-        title: 'Models',
-        path: '/dashboard/models',
-        icon: <BranchesOutlined />
     },
     {
         title: 'Settings',

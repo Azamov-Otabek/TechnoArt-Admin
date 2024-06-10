@@ -41,4 +41,5 @@ export interface brandcategory_request{
     create_brandcategory: (data: createCategory) => any
     update_brandcategory: (data: update_subcategory) => any;
     delete_brandcategory: (data: delete_subcategory) => any;
+    get_id_brands: (data: any) => any
 }
