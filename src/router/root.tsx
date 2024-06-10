@@ -39,8 +39,13 @@ export const root = [
         icon: <AppleOutlined />
     },
     {
+        title: 'Stocks',
+        path: '/dashboard/stock',
+        icon: <SettingOutlined />
+    },
+    {
         title: 'Settings',
         path: '/dashboard/settings',
         icon: <SettingOutlined />
-    }
+    },
 ]

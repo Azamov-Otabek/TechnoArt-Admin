@@ -1,5 +1,5 @@
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
-import { Auth, Login, Register, ForgotPassword, Brand_Category, Protected , Protectedauth , Product_detail, Settings, Products, Brands, Categories, Home, Single_Category} from "@pages";
+import { Stock, Auth, Login, Register, ForgotPassword, Brand_Category, Protected , Protectedauth , Product_detail, Settings, Products, Brands, Categories, Home, Single_Category} from "@pages";
 import Layout from '@layout'
 import App from "../App";
 
@@ -22,6 +22,7 @@ export default function Router(){
                     <Route path="categories/:subcategory" element={<Single_Category/>}/>
                     <Route path="brands/:brand" element={<Brand_Category/>}/>
                     <Route path="products/:detail" element={<Product_detail/>}/>
+                    <Route path="stock" element={<Stock/>}/>
                 </Route>
             </Route>
         )
