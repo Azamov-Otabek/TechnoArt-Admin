@@ -1,7 +1,7 @@
 import { Glabal_Table, Pogination } from "@ui"
 import { BrandStore, CategoryStore, ProductStore } from "@store"
 import { useEffect, useState } from "react"
-import { Button, Input  } from "antd"
+import { Button, Input, Popover  } from "antd"
 import { ToastContainer, toast } from "react-toastify"
 import { Product_modal } from "@ui"
 import { useLocation, useNavigate } from "react-router-dom"
@@ -19,6 +19,7 @@ function index() {
   const [search, setSearch] = useState(searchparams.get('search') || '');
   const [searchLoad, setSearchLoad] = useState(false);
   const [tableLoad, setTableLoad] = useState(false);
+  const [openPopover, setOpenPopover] = useState(null); // Track the open popover
 
 
   async function handledelete(id:string){
@@ -34,6 +35,13 @@ function index() {
       toast.error('Something went wrong')
     }
   }
+  const handleOpenChange = (newOpen: boolean, recordId: any) => {
+    if (newOpen) {
+      setOpenPopover(recordId);
+    } else {
+      setOpenPopover(null);
+    }
+  };
 
   const thead = [
     {
@@ -64,9 +72,21 @@ function index() {
       render: (_:any, record:any) => (
         <div>
           <Product_modal title={'Update'} data={record} getData={getData}/>     
-          <Button onClick={() => handledelete(record.id)}  className="custom-button mr-2 ml-2">
-            Delete
-          </Button>
+          <Popover
+                content={<div className="h-[50px] flex justify-end items-end gap-[15px]">
+                  <Button className="custom-button" onClick={() => handleOpenChange(false, record.id)}>Cancel</Button>
+                  <Button className="custom-button" onClick={() => handledelete(record.id)}>Delete</Button>
+                </div>
+                }
+                title="Are you sure you want to delete this brand?"
+                trigger="click"
+                open={openPopover === record.id}
+                onOpenChange={(newOpen) => handleOpenChange(newOpen, record.id)}
+              >
+                <Button className="custom-button mr-2 ml-2">
+                  Delete
+                </Button>
+              </Popover>
           <Button className="custom-button" onClick={() => navigate(`/dashboard/products/${record.id}`)}>
             View Product details within
           </Button>

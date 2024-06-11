@@ -1,6 +1,6 @@
 import { CategoryStore } from "@store";
 import { useEffect, useState } from "react";
-import { Button, Input } from "antd"; // Importing required components from Ant Design
+import { Button, Input, Popover } from "antd"; // Importing required components from Ant Design
 import '../../components/ui/global-table/style.css'
 import { Glabal_Table, Category_modal, Pogination } from "@ui";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -17,6 +17,7 @@ function Index() {
   const [total, setTotal] = useState(0);
   const [searchLoad, setSearchLoad] = useState(false);
   const [tableLoad, setTableLoad] = useState(false);
+  const [openPopover, setOpenPopover] = useState(null); // Track the open popover
 
   const handleDelete = async (id: string) => {
     const response = await delete_category({ id: Number(id) });
@@ -29,6 +30,14 @@ function Index() {
       getData();
     } else {
       toast.error('Delete category failed', { autoClose: 1500 });
+    }
+  };
+
+  const handleOpenChange = (newOpen: boolean, recordId: any) => {
+    if (newOpen) {
+      setOpenPopover(recordId);
+    } else {
+      setOpenPopover(null);
     }
   };
 
@@ -57,9 +66,21 @@ function Index() {
       render: (_: any, record: any) => (
         <div>
           <Category_modal title={'update'} data={record} getData={getData} />
-          <Button onClick={() => handleDelete(record.id)} className="custom-button mr-2 ml-2">
-            Delete
-          </Button>
+          <Popover
+                content={<div className="h-[50px] flex justify-end items-end gap-[15px]">
+                  <Button className="custom-button" onClick={() => handleOpenChange(false, record.id)}>Cancel</Button>
+                  <Button className="custom-button" onClick={() => handleDelete(record.id)}>Delete</Button>
+                </div>
+                }
+                title="Are you sure you want to delete this brand?"
+                trigger="click"
+                open={openPopover === record.id}
+                onOpenChange={(newOpen) => handleOpenChange(newOpen, record.id)}
+              >
+                <Button className="custom-button mr-2 ml-2">
+                  Delete
+                </Button>
+              </Popover>
           <Button className="custom-button" onClick={() => navigate(`/dashboard/categories/${record.id}`)}>
             View categories within
           </Button>
